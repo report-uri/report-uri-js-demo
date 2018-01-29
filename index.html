@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to the Report URI JS demo | report-uri-js-demo</title>
+    <meta property="og:title" content="Welcome to the Report URI JS demo" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="description" content="A demo of Report URI JS" />
+    <meta property="og:description" content="A demo of Report URI JS" />
+    <link rel="canonical" href="https://report-uri.github.io/report-uri-js-demo/" />
+    <meta property="og:url" content="https://report-uri.github.io/report-uri-js-demo/" />
+    <meta property="og:site_name" content="report-uri-js-demo" />
+    <script type="application/ld+json">
+{"name":"report-uri-js-demo","description":"A demo of Report URI JS","author":null,"@type":"WebSite","url":"https://report-uri.github.io/report-uri-js-demo/","image":null,"publisher":null,"headline":"Welcome to the Report URI JS demo","dateModified":null,"datePublished":null,"sameAs":null,"mainEntityOfPage":null,"@context":"http://schema.org"}</script>
+
+    <meta name="description" content="A demo of Report URI JS"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src cdn.report-uri.com; style-src 'self' fonts.googleapis.com; font-src fonts.gstatic.com; connect-src scotthelme.report-uri.com; upgrade-insecure-requests">
+    <script type="text/json" id="csp-report-uri">
+    {"keys" : ["blockedURI", "columnNumber", "disposition", "documentURI", "effectiveDirective", "lineNumber", "originalPolicy", "referrer", "sample", "sourceFile", "statusCode", "violatedDirective"],
+    "reportUri" : "https://scotthelme.report-uri.com/r/d/csp/enforce"}
+    </script>
+    <script src="https://cdn.report-uri.com/libs/report-uri-js/1.0.0/report-uri-js.min.js" integrity="sha256-/u7ebXQXcESMpl6YCvyBEqs83Wt+JpsaMvO8sXFbIH0=" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/report-uri-js-demo/assets/css/style.css">
+</head>
+<body>
+<section class="page-header">
+    <h1 class="project-name">Report URI JS Demo</h1>
+    <h2 class="project-tagline">Powerful CSP Reporting</h2>
+    <a href="https://github.com/report-uri/report-uri-js-demo" class="btn">View on GitHub</a>
+</section>
+
+<section class="main-content">
+    <h2 id="welcome">Welcome</h2>
+
+    <p>The most common way to set a CSP on your site is via a HTTP response header, but that's not always possible. This page is hosted on GitHub pages and we can't set HTTP response headers here so our CSP is defined in a meta tag instead.</p>
+
+    <p><pre>&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src 'self'; script-src cdn.report-uri.com; style-src 'self' fonts.googleapis.com; font-src fonts.gstatic.com; connect-src scotthelme.report-uri.com; upgrade-insecure-requests&quot;&gt;</pre></p>
+
+    <br/>
+    <p>Having this option available is great but there is a limitation, you can't enable CSP Reporting inside a meta tag. This means you have to deploy your CSP without getting feedback from the browser about what's happening on your site, which isn't a great idea. This is the problem that Report URI JS fixes. By including our reporting library in your page we can enable CSP reporting for your meta tag!</p>
+
+    <br/>
+    <h2 id="setup">Setup</h2>
+
+    <p>These tags need to be placed as early as possible in your &lt;head&gt;, along with your CSP meta tag, as they will only apply to content after they are inserted.</p>
+
+    <p><pre>&lt;script type=&quot;text/json&quot; id=&quot;csp-report-uri&quot;&gt;
+{&quot;keys&quot; : [&quot;blockedURI&quot;, &quot;columnNumber&quot;, &quot;disposition&quot;, &quot;documentURI&quot;, &quot;effectiveDirective&quot;, &quot;lineNumber&quot;, &quot;originalPolicy&quot;, &quot;referrer&quot;, &quot;sample&quot;, &quot;sourceFile&quot;, &quot;statusCode&quot;, &quot;violatedDirective&quot;],
+&quot;reportUri&quot; : &quot;https://{subdomain}.report-uri.com/r/d/csp/enforce&quot;}
+&lt;/script&gt;
+&lt;script src=&quot;https://cdn.report-uri.com/libs/report-uri-js/1.0.0/report-uri-js.min.js&quot; integrity=&quot;sha256-/u7ebXQXcESMpl6YCvyBEqs83Wt+JpsaMvO8sXFbIH0=&quot; crossorigin=&quot;anonymous&quot;&gt;&lt;/script&gt;</pre></p>
+
+    <br/>
+    <p>You need to update the config json with your own reporting address by replacing the {subdomain} placeholder and you will need to make two additions to your CSP.</p>
+    <p><pre>
+script-src cdn.report-uri.com
+connect-src {subdomain}.report-uri.com
+</pre></p>
+
+    <br/>
+    The script-src is required to load the JS library and the connect-src is required to send the reports to your reporting endpoint which also needs updating by replacing the {subdomain} placeholder.
+
+    <h2 id="demo">Demo</h2>
+
+    <p>To see how a CSP violation is reported, let's try and load an asset that isn't permitted by our CSP.</p>
+    <p><pre>&lt;img src=&quot;https://report-uri.com/img/logo.svg&quot;&gt;</pre></p>
+    <img src="https://report-uri.com/img/logo.svg">
+
+    <br/>
+    <p>The above image was not loaded because the domain is not a whitelisted image source in our CSP. Normally, with a CSP delivered via meta tag, you wouldn't receive a report for such an event but if you check the Network tab in the developer tools of your browser and reload the page, you'll see that a report was sent!</p>
+
+
+    <p>In future updates we will be adding some awesome new features to the library like the ability to filter reports on the client side, down sample reports to reduce volume and even normalising reports before they are sent.</p>
+
+    <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/report-uri/report-uri-js-demo">report-uri-js-demo</a> is maintained by <a href="https://github.com/report-uri">report-uri</a>.</span>
+    </footer>
+</section>
+
+
+</body>
+</html>
